@@ -65,4 +65,9 @@ public class CaveSimulation {
 
         // Afficher les autres types de concrétions (stalactites, stalagmites, colonnes, draperies) de la même manière
     }
+
+    public static void main(String[] args) {
+        GrotteSimulation simulation = new GrotteSimulation();
+        simulation.simuler(10); // Simuler pendant 10 pas de temps
+    }
 }
