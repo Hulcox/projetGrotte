@@ -1,4 +1,4 @@
-package modelisation;
+package com.projetgrotte.algorithm;
 
 public abstract class ConcretionFragile extends Concretion {
     private boolean isBreak;

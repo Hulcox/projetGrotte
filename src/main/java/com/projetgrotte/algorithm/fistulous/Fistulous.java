@@ -1,6 +1,6 @@
-package modelisation.fistulous;
+package com.projetgrotte.algorithm.fistulous;
 
-import modelisation.ConcretionFragile;
+import com.projetgrotte.algorithm.ConcretionFragile;
 
 public class Fistulous extends ConcretionFragile {
 

@@ -1,4 +1,4 @@
-package com.example.projetgrotte;
+package com.projetgrotte.javaFX;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,4 +1,4 @@
-package com.example.projetgrotte;
+package com.projetgrotte.javaFX;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

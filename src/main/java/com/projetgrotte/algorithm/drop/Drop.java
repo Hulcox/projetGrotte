@@ -1,6 +1,6 @@
-package modelisation.drop;
+package com.projetgrotte.algorithm.drop;
 
-import modelisation.Concretion;
+import com.projetgrotte.algorithm.Concretion;
 
 public class Drop extends Concretion {
     private double weight;
