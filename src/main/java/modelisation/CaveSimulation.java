@@ -6,10 +6,7 @@ import modelisation.fistulous.Fistulous;
 import modelisation.stalactite.Stalactite;
 import modelisation.stalagmite.Stalagmite;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class CaveSimulation {
 
@@ -35,23 +32,21 @@ public class CaveSimulation {
         draperys = new ArrayList<>();
     }
 
-    public void simulate(int nombrePasTemps, double proba_goutte) {
-        Random random = new Random();
-
-        for (int i = 0; i < nombrePasTemps; i++) {
-            // Génération aléatoire de gouttes sur le plafond
-            if (random.nextDouble() < proba_goutte) {
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            Random random = new Random();
+            if (random.nextBoolean()) {
                 double posX = Math.round(random.nextDouble() * SIZE_CAVE * 100.0) / 100.0;
-
                 Drop drop = new Drop(posX, ROOF_Y, DIAMETER, WEIGTH, LIMESTONE_CHARGE);
                 drops.add(drop);
+                System.out.println("Goutte créée");
             }
-
-            System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
-            showConcretions();
-            System.out.println("---------------------------------------------");
+            //System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
+            //showConcretions();
+            System.out.println("---");
         }
-    }
+    };
 
 
     public void showConcretions() {
@@ -85,7 +80,8 @@ public class CaveSimulation {
 
     public static void main(String[] args) {
         CaveSimulation simulation = new CaveSimulation();
-        simulation.simulate(10, 1);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(simulation.task, 0, 300);
     }
 
 }
