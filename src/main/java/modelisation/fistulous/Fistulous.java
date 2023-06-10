@@ -3,11 +3,18 @@ package modelisation.fistulous;
 import modelisation.ConcretionFragile;
 
 public class Fistulous extends ConcretionFragile {
-
     private double size;
     public Fistulous(double posX, double posY, double diameter) {
         super(posX, posY, diameter);
         this.size = 1;
+    }
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
     }
 
     @Override

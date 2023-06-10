@@ -49,7 +49,7 @@ public class CaveSimulation {
                         double posXMin = d.getPosX() - d.getDiameter() / 2;
                         double posXMax = d.getPosX() + d.getDiameter() / 2;
 
-                        if (posX > posXMin && posX < posXMax) {
+                        if (posX > posXMin && posX < posXMax && !d.getIsFalling()) {
                             System.out.println("Goutte doit evoluer");
                             d.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
                             matchFound = true;
@@ -62,7 +62,7 @@ public class CaveSimulation {
             }
 
             for(Drop d: drops){
-                if(d.getWeigth() >= 10) {
+                if(d.getWeigth() >= 10 && !d.getIsFalling()) {
                     d.falling();
                     System.out.println("Un goutte tombe");
 
@@ -85,7 +85,7 @@ public class CaveSimulation {
 
         System.out.println("Fistuleuses:");
         for (Fistulous f : fistulouses) {
-            System.out.println("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter());
+            System.out.println("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter() + ", Taille: "+ f.getSize());
         }
 
         System.out.println("Stalagmites :");
