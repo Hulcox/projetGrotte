@@ -1,4 +1,6 @@
-package modelisation;
+package modelisation.fistulous;
+
+import modelisation.ConcretionFragile;
 
 public class Fistulous extends ConcretionFragile {
     public Fistulous(double posX, double posY, double diameter) {

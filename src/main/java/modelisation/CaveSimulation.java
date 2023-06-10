@@ -2,6 +2,7 @@ package modelisation;
 import modelisation.column.Column;
 import modelisation.drapery.Drapery;
 import modelisation.drop.Drop;
+import modelisation.fistulous.Fistulous;
 import modelisation.stalactite.Stalactite;
 import modelisation.stalagmite.Stalagmite;
 
