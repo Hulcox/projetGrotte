@@ -7,19 +7,18 @@ import modelisation.stalactite.Stalactite;
 import modelisation.stalagmite.Stalagmite;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 public class CaveSimulation {
 
+    private static final int SIZE_CAVE = 100;
     private static final int ROOF_Y = 100;
     private static final int GROUND_Y = 200;
-    private static final int DIAMETER_MIN = 5;
-    private static final int DIAMETER_MAX = 20;
-    private static final double WEIGTH_MIN = 0.1;
-    private static final double WEIGTH_MAX = 1.0;
-    private static final double LIMESTONE_MIN = 1.0;
-    private static final double LIMESTONE_MAX = 10.0;
+    private static final int DIAMETER = 2;
+    private static final double WEIGTH = 4;
+    private static final double LIMESTONE_CHARGE = 10.0;
     private List<Drop> drops;
     private List<Fistulous> fistulouses;
     private List<Stalactite> stalactites;
@@ -36,29 +35,16 @@ public class CaveSimulation {
         draperys = new ArrayList<>();
     }
 
-    public void simulate(int nombrePasTemps) {
+    public void simulate(int nombrePasTemps, double proba_goutte) {
         Random random = new Random();
 
         for (int i = 0; i < nombrePasTemps; i++) {
-            // Génération aléatoire de gouttes
-            double posX = random.nextDouble() * 400;
-            double diameter = DIAMETER_MIN + random.nextDouble() * (DIAMETER_MAX - DIAMETER_MIN);
-            double weigth = WEIGTH_MIN + random.nextDouble() * (WEIGTH_MAX - WEIGTH_MIN);
-            double limestone = LIMESTONE_MIN + random.nextDouble() * (LIMESTONE_MAX - LIMESTONE_MIN);
+            // Génération aléatoire de gouttes sur le plafond
+            if (random.nextDouble() < proba_goutte) {
+                double posX = Math.round(random.nextDouble() * SIZE_CAVE * 100.0) / 100.0;
 
-            Drop drop = new Drop(posX, ROOF_Y, diameter, weigth, limestone);
-            drops.add(drop);
-
-            // Simulation de la formation des concrétions
-            for (Drop g : drops) {
-                g.falling();
-
-                if (g.getPosY() + g.getDiameter() >= GROUND_Y) {
-                    drops.remove(g);
-
-                    Fistulous fistulous = new Fistulous(g.getPosX(), GROUND_Y - g.getDiameter(), g.getDiameter());
-                    fistulouses.add(fistulous);
-                }
+                Drop drop = new Drop(posX, ROOF_Y, DIAMETER, WEIGTH, LIMESTONE_CHARGE);
+                drops.add(drop);
             }
 
             System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
@@ -67,10 +53,11 @@ public class CaveSimulation {
         }
     }
 
+
     public void showConcretions() {
         System.out.println("Gouttes:");
         for (Drop g : drops) {
-            System.out.println("Goutte - Position: (" + g.getPosX() + ", " + g.getPosY() + "), Diamètre: " + g.getWeigth() + ", Calcaire: " + g.getLimestone());
+            System.out.println("Goutte - Position: (" + g.getPosX() + ", " + g.getPosY() + "), Poids: " + g.getWeigth() + " , Diamètre: " + g.getDiameter() + ", Calcaire: " + g.getLimestone());
         }
 
         System.out.println("Fistuleuses:");
@@ -98,7 +85,7 @@ public class CaveSimulation {
 
     public static void main(String[] args) {
         CaveSimulation simulation = new CaveSimulation();
-        simulation.simulate(10);
+        simulation.simulate(10, 1);
     }
 
 }
