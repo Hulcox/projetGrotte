@@ -3,8 +3,11 @@ package modelisation.fistulous;
 import modelisation.ConcretionFragile;
 
 public class Fistulous extends ConcretionFragile {
+
+    private double size;
     public Fistulous(double posX, double posY, double diameter) {
         super(posX, posY, diameter);
+        this.size = 1;
     }
 
     @Override
@@ -13,7 +16,7 @@ public class Fistulous extends ConcretionFragile {
     }
 
     @Override
-    public void evolve() {
+    public void evolve(double newWeight, double newLimestone, double newDiameter) {
         // Logique spécifique à l'évolution d'une fistuleuse
     }
 }

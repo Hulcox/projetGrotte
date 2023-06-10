@@ -25,8 +25,10 @@ public class Drop extends Concretion {
     }
 
     @Override
-    public void evolve() {
-        // Logique spécifique à l'évolution d'une goutte
+    public void evolve(double newWeight, double newLimestone, double newDiameter) {
+        this.weight += newWeight;
+        this.limestone += newLimestone;
+        super.setDiameter(getDiameter()+newDiameter);
     }
 
     /*public void fuse(Drop otherDrop) {

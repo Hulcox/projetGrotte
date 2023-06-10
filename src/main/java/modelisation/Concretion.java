@@ -3,6 +3,7 @@ package modelisation;
 public abstract class Concretion {
     private double posX;
     private double posY;
+
     private double diameter;
 
     public Concretion(double posX, double posY, double diameter) {
@@ -26,6 +27,8 @@ public abstract class Concretion {
     public double getDiameter() {
         return diameter;
     }
-
-    public abstract void evolve();
+    public void setDiameter(double diameter) {
+        this.diameter = diameter;
+    }
+    public abstract void evolve(double newWeight, double newLimestone, double newDiameter);
 }

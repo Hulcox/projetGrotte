@@ -39,13 +39,42 @@ public class CaveSimulation {
         Random random = new Random();
 
         for (int i = 0; i < nombrePasTemps; i++) {
-            // Génération aléatoire de gouttes sur le plafond
             if (random.nextDouble() < proba_goutte) {
                 double posX = Math.round(random.nextDouble() * SIZE_CAVE * 100.0) / 100.0;
 
                 Drop drop = new Drop(posX, ROOF_Y, DIAMETER, WEIGTH, LIMESTONE_CHARGE);
-                drops.add(drop);
+
+                //if a drop already exist the two drop fuse to become an evolved drop
+                if (drops.size() == 0) {
+                    drops.add(drop);
+                } else {
+                    boolean matchFound = false;
+                    for (Drop d : drops) {
+                        double posXMin = d.getPosX() - d.getDiameter() / 2;
+                        double posXMax = d.getPosX() + d.getDiameter() / 2;
+
+                        if (posX > posXMin && posX < posXMax) {
+                            System.out.println("Goutte doit evoluer");
+                            d.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
+                            matchFound = true;
+                        }
+                    }
+                    if (!matchFound) {
+                        drops.add(drop);
+                    }
+                }
             }
+
+            for(Drop d: drops){
+                if(d.getWeigth() >= 10) {
+                    d.falling();
+                    System.out.println("Un goutte tombe");
+
+                    Fistulous fistulous = new Fistulous(d.getPosX(), d.getPosY(), d.getDiameter());
+                    fistulouses.add(fistulous);
+                }
+            }
+
 
             System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
             showConcretions();
@@ -85,7 +114,7 @@ public class CaveSimulation {
 
     public static void main(String[] args) {
         CaveSimulation simulation = new CaveSimulation();
-        simulation.simulate(10, 1);
+        simulation.simulate(50, 1);
     }
 
 }
