@@ -1,18 +1,21 @@
-package modelisation;
+import modelisation.Column;
+import modelisation.Drapery;
+import modelisation.Stalactite;
+import modelisation.Stalagmite;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class CaveSimulation {
-
     private List<Goutte> gouttes;
     private List<Fistuleuse> fistuleuses;
     private List<Stalactite> stalactites;
     private List<Stalagmite> stalagmites;
-    private List<Colonne> colonnes;
-    private List<Draperie> draperies;
+    private List<Column> colonnes;
+    private List<Drapery> draperies;
 
-    public GrotteSimulation() {
+    public CaveSimulation() {
         gouttes = new ArrayList<>();
         fistuleuses = new ArrayList<>();
         stalactites = new ArrayList<>();
@@ -21,11 +24,12 @@ public class CaveSimulation {
         draperies = new ArrayList<>();
     }
 
-    public void simuler(int nombrePasTemps) {
+    public void simule() {
         Random random = new Random();
+        int nombreGouttes = 10;
 
-        for (int i = 0; i < nombrePasTemps; i++) {
-            // Génération aléatoire de gouttes
+        // Génération aléatoire des gouttes
+        for (int i = 0; i < nombreGouttes; i++) {
             double posX = random.nextDouble() * 400;
             double diametre = DIAMETRE_MIN + random.nextDouble() * (DIAMETRE_MAX - DIAMETRE_MIN);
             double poids = POIDS_MIN + random.nextDouble() * (POIDS_MAX - POIDS_MIN);
@@ -33,41 +37,62 @@ public class CaveSimulation {
 
             Goutte goutte = new Goutte(posX, PLAFOND_Y, diametre, poids, calcaire);
             gouttes.add(goutte);
+        }
 
-            // Simulation de la formation des concrétions
-            for (Goutte g : gouttes) {
-                g.chuter();
+        int nombrePasDeTemps = 100;
 
-                if (g.getY() + g.getDiametre() >= SOL_Y) {
-                    gouttes.remove(g);
+        // Simulation pour chaque pas de temps
+        for (int t = 0; t < nombrePasDeTemps; t++) {
+            System.out.println("Pas de temps : " + t);
 
-                    Fistuleuse fistuleuse = new Fistuleuse(g.getX(), SOL_Y - g.getDiametre(), g.getDiametre(), g.getCalcaire());
-                    fistuleuses.add(fistuleuse);
+            // Simulation des gouttes
+            for (Goutte goutte : gouttes) {
+                goutte.chuter();
+
+                // Vérification de la formation d'une fistuleuse
+                if (goutte.getY() + goutte.getDiametre() >= SOL_Y) {
+                    fistuleuses.add(new Fistuleuse(goutte.getX(), SOL_Y - goutte.getDiametre(), goutte.getDiametre(), goutte.getCalcaire()));
                 }
             }
 
-            System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
+            // Affichage de l'état des concrétions
             afficherConcretions();
-            System.out.println("---------------------------------------------");
         }
     }
 
-    public void afficherConcretions() {
-        System.out.println("Gouttes:");
-        for (Goutte g : gouttes) {
-            System.out.println("Goutte - Position: (" + g.getX() + ", " + g.getY() + "), Diamètre: " + g.getDiametre() + ", Calcaire: " + g.getCalcaire());
+    private void afficherConcretions() {
+        System.out.println("Liste des concrétions :");
+
+        System.out.println("Fistuleuses :");
+        for (Fistuleuse fistuleuse : fistuleuses) {
+            System.out.println(fistuleuse);
         }
 
-        System.out.println("Fistuleuses:");
-        for (Fistuleuse f : fistuleuses) {
-            System.out.println("Fistuleuse - Position: (" + f.getX() + ", " + f.getY() + "), Diamètre: " + f.getDiametre() + ", Calcaire: " + f.getCalcaire());
+        System.out.println("Stalactites :");
+        for (Stalactite stalactite : stalactites) {
+            System.out.println(stalactite);
         }
 
-        // Afficher les autres types de concrétions (stalactites, stalagmites, colonnes, draperies) de la même manière
+        System.out.println("Stalagmites :");
+        for (Stalagmite stalagmite : stalagmites) {
+            System.out.println(stalagmite);
+        }
+
+        System.out.println("Columns :");
+        for (Column colonne : colonnes) {
+            System.out.println(colonne);
+        }
+
+        System.out.println("Draperies :");
+        for (Drapery draperie : draperies) {
+            System.out.println(draperie);
+        }
+
+        System.out.println("--------------------");
     }
 
     public static void main(String[] args) {
-        GrotteSimulation simulation = new GrotteSimulation();
-        simulation.simuler(10); // Simuler pendant 10 pas de temps
+        CaveSimulation simulation = new CaveSimulation();
+        simulation.simule();
     }
 }
