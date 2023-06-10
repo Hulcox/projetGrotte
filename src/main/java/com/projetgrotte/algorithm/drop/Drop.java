@@ -5,6 +5,7 @@ import com.projetgrotte.algorithm.Concretion;
 public class Drop extends Concretion {
     private double weight;
     private double limestone;
+    private boolean isFalling = false;
 
     public Drop(double posX, double posY, double diameter, double weight, double limestone) {
         super(posX, posY, diameter);
@@ -21,7 +22,11 @@ public class Drop extends Concretion {
     }
 
     public void falling() {
-        setPosY(getPosY() + weight); // Augmente la position Y en fonction du poids de la goutte
+        setPosY(getPosY() + weight);
+        isFalling = true;
+    }
+    public boolean getIsFalling() {
+        return isFalling;
     }
 
     @Override

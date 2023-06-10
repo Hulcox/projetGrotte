@@ -6,12 +6,9 @@ import com.projetgrotte.algorithm.drop.Drop;
 import com.projetgrotte.algorithm.fistulous.Fistulous;
 import com.projetgrotte.algorithm.stalactite.Stalactite;
 import com.projetgrotte.algorithm.stalagmite.Stalagmite;
-import lombok.Data;
 
 import java.util.*;
 
-
-@Data
 public class CaveSimulation {
 
     private static final int SIZE_CAVE = 100;
@@ -49,13 +46,13 @@ public class CaveSimulation {
                     drops.add(drop);
                 } else {
                     boolean matchFound = false;
-                    for (Drop d : drops) {
-                        double posXMin = d.getPosX() - d.getDiameter() / 2;
-                        double posXMax = d.getPosX() + d.getDiameter() / 2;
+                    for (Drop secondDrop : drops) {
+                        double posXMin = secondDrop.getPosX() - secondDrop.getDiameter() / 2;
+                        double posXMax = secondDrop.getPosX() + secondDrop.getDiameter() / 2;
 
-                        if (posX > posXMin && posX < posXMax) {
+                        if (posX > posXMin && posX < posXMax && !secondDrop.getIsFalling()) {
                             System.out.println("Goutte doit evoluer");
-                            d.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
+                            secondDrop.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
                             matchFound = true;
                         }
                     }
@@ -65,12 +62,12 @@ public class CaveSimulation {
                 }
             }
 
-            for (Drop d : drops) {
-                if (d.getWeigth() >= 10) {
-                    d.falling();
+            for(Drop drop: drops){
+                if(drop.getWeigth() >= 10 && !drop.getIsFalling()) {
+                    drop.falling();
                     System.out.println("Un goutte tombe");
 
-                    Fistulous fistulous = new Fistulous(d.getPosX(), d.getPosY(), d.getDiameter());
+                    Fistulous fistulous = new Fistulous(drop.getPosX(), drop.getPosY(), drop.getDiameter());
                     fistulouses.add(fistulous);
                 }
             }
@@ -89,7 +86,7 @@ public class CaveSimulation {
 
         System.out.println("Fistuleuses:");
         for (Fistulous fistulous : fistulouses) {
-            System.out.println("Fistuleuse - Position: (" + fistulous.getPosX() + ", " + fistulous.getPosY() + "), Diamètre: " + fistulous.getDiameter());
+            System.out.println("Fistuleuse - Position: (" + fistulous.getPosX() + ", " + fistulous.getPosY() + "), Diamètre: " + fistulous.getDiameter() + ", Taille: "+ fistulous.getSize());
         }
 
         /*System.out.println("Stalagmites :");
