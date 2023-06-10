@@ -9,7 +9,6 @@ import modelisation.stalagmite.Stalagmite;
 
 import java.util.*;
 
-
 public class CaveSimulation {
 
     private static final Logger log = Logger.getLogger(CaveSimulation.class.getName());
@@ -53,7 +52,7 @@ public class CaveSimulation {
                         double posXMin = d.getPosX() - d.getDiameter() / 2;
                         double posXMax = d.getPosX() + d.getDiameter() / 2;
 
-                        if (posX > posXMin && posX < posXMax) {
+                        if (posX > posXMin && posX < posXMax && !d.getIsFalling()) {
                             log.info("Goutte doit evoluer");
                             d.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
                             matchFound = true;
@@ -66,7 +65,7 @@ public class CaveSimulation {
             }
 
             for(Drop d: drops){
-                if(d.getWeigth() >= 10) {
+                if(d.getWeigth() >= 10 && !d.getIsFalling()) {
                     d.falling();
                     log.info("Un goutte tombe");
 
@@ -89,7 +88,7 @@ public class CaveSimulation {
 
         log.info("Fistuleuses:");
         for (Fistulous f : fistulouses) {
-            log.info("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter());
+            log.info("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter() + ", Taille: "+ f.getSize());
         }
 
         /*log.info("Stalagmites :");
