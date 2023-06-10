@@ -60,9 +60,6 @@ public class CaveSimulation {
                     }
                 }
             }
-            //System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
-            //showConcretions();
-            System.out.println("---");
 
             for(Drop d: drops){
                 if(d.getWeigth() >= 10) {
@@ -74,10 +71,8 @@ public class CaveSimulation {
                 }
             }
 
-
-            System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
             showConcretions();
-            System.out.println("---------------------------------------------");
+            System.out.println("---");
         }
     };
 
