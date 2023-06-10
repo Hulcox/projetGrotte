@@ -1,4 +1,10 @@
 package modelisation;
+import modelisation.column.Column;
+import modelisation.drapery.Drapery;
+import modelisation.drop.Drop;
+import modelisation.stalactite.Stalactite;
+import modelisation.stalagmite.Stalagmite;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,16 +23,16 @@ public class CaveSimulation {
     private List<Fistulous> fistulouses;
     private List<Stalactite> stalactites;
     private List<Stalagmite> stalagmites;
-    private List<Colonne> colonnes;
-    private List<Draperie> draperies;
+    private List<Column> columns;
+    private List<Drapery> draperys;
 
     public CaveSimulation() {
         drops = new ArrayList<>();
         fistulouses = new ArrayList<>();
         stalactites = new ArrayList<>();
         stalagmites = new ArrayList<>();
-        colonnes = new ArrayList<>();
-        draperies = new ArrayList<>();
+        columns = new ArrayList<>();
+        draperys = new ArrayList<>();
     }
 
     public void simulate(int nombrePasTemps) {
@@ -71,11 +77,27 @@ public class CaveSimulation {
             System.out.println("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter());
         }
 
-        // Afficher les autres types de concrétions (stalactites, stalagmites, colonnes, draperies) de la même manière
+        System.out.println("Stalagmites :");
+        for (Stalagmite stalagmite : stalagmites) {
+            System.out.println(stalagmite);
+        }
+
+        System.out.println("Colonnes :");
+        for (Column column : columns) {
+            System.out.println(column);
+        }
+
+        System.out.println("Draperies :");
+        for (Drapery drapery : draperys) {
+            System.out.println(drapery);
+        }
+
+        System.out.println("--------------------");
     }
 
     public static void main(String[] args) {
         CaveSimulation simulation = new CaveSimulation();
-        simulation.simulate(10); // Simuler pendant 10 pas de temps
+        simulation.simulate(10);
     }
+
 }

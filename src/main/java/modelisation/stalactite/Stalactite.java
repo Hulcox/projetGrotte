@@ -1,4 +1,4 @@
-package modelisation;
+package modelisation.stalactite;
 
 public class Stalactite {
 

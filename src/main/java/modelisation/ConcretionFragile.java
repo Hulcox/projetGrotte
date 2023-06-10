@@ -16,5 +16,5 @@ public abstract class ConcretionFragile extends Concretion {
         this.isBreak = isBreak;
     }
 
-    public abstract void toBrake();
+    public abstract void isBreaking();
 }

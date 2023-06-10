@@ -1,6 +1,8 @@
-package modelisation;
+package modelisation.drop;
 
-public class Drop extends Concretion  {
+import modelisation.Concretion;
+
+public class Drop extends Concretion {
     private double weight;
     private double limestone;
 

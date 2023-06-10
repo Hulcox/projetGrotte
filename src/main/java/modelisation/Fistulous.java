@@ -6,7 +6,7 @@ public class Fistulous extends ConcretionFragile {
     }
 
     @Override
-    public void toBrake() {
+    public void isBreaking() {
         // Logique spécifique à la casse d'une fistuleuse
     }
 
