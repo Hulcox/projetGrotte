@@ -1,4 +1,5 @@
 package modelisation;
+import java.util.logging.Logger;
 import modelisation.column.Column;
 import modelisation.drapery.Drapery;
 import modelisation.drop.Drop;
@@ -8,7 +9,10 @@ import modelisation.stalagmite.Stalagmite;
 
 import java.util.*;
 
+
 public class CaveSimulation {
+
+    private static final Logger log = Logger.getLogger(CaveSimulation.class.getName());
 
     private static final int SIZE_CAVE = 100;
     private static final int ROOF_Y = 100;
@@ -41,7 +45,7 @@ public class CaveSimulation {
                 Drop drop = new Drop(posX, ROOF_Y, DIAMETER, WEIGTH, LIMESTONE_CHARGE);
 
                 //if a drop already exist the two drop fuse to become an evolved drop
-                if (drops.size() == 0) {
+                if (drops.isEmpty()) {
                     drops.add(drop);
                 } else {
                     boolean matchFound = false;
@@ -50,7 +54,7 @@ public class CaveSimulation {
                         double posXMax = d.getPosX() + d.getDiameter() / 2;
 
                         if (posX > posXMin && posX < posXMax) {
-                            System.out.println("Goutte doit evoluer");
+                            log.info("Goutte doit evoluer");
                             d.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
                             matchFound = true;
                         }
@@ -64,7 +68,7 @@ public class CaveSimulation {
             for(Drop d: drops){
                 if(d.getWeigth() >= 10) {
                     d.falling();
-                    System.out.println("Un goutte tombe");
+                    log.info("Un goutte tombe");
 
                     Fistulous fistulous = new Fistulous(d.getPosX(), d.getPosY(), d.getDiameter());
                     fistulouses.add(fistulous);
@@ -72,38 +76,38 @@ public class CaveSimulation {
             }
 
             showConcretions();
-            System.out.println("---");
+            log.info("---");
         }
     };
 
 
     public void showConcretions() {
-        System.out.println("Gouttes:");
+        log.info("Gouttes:");
         for (Drop g : drops) {
-            System.out.println("Goutte - Position: (" + g.getPosX() + ", " + g.getPosY() + "), Poids: " + g.getWeigth() + " , Diamètre: " + g.getDiameter() + ", Calcaire: " + g.getLimestone());
+            log.info("Goutte - Position: (" + g.getPosX() + ", " + g.getPosY() + "), Poids: " + g.getWeigth() + " , Diamètre: " + g.getDiameter() + ", Calcaire: " + g.getLimestone());
         }
 
-        System.out.println("Fistuleuses:");
+        log.info("Fistuleuses:");
         for (Fistulous f : fistulouses) {
-            System.out.println("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter());
+            log.info("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter());
         }
 
-        System.out.println("Stalagmites :");
+        /*log.info("Stalagmites :");
         for (Stalagmite stalagmite : stalagmites) {
-            System.out.println(stalagmite);
+            log.info(stalagmite);
         }
 
-        System.out.println("Colonnes :");
+        log.info("Colonnes :");
         for (Column column : columns) {
-            System.out.println(column);
+            log.info(column);
         }
 
-        System.out.println("Draperies :");
+        log.info("Draperies :");
         for (Drapery drapery : draperys) {
-            System.out.println(drapery);
-        }
+            log.info(drapery);
+        }*/
 
-        System.out.println("--------------------");
+        log.info("--------------------");
     }
 
     public static void main(String[] args) {
