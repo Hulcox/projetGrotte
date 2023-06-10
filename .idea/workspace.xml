@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a603ad91-7135-4236-8efa-9807cd3a278d" name="Changes" comment="adding main function">
-      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Concretion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/ConcretionFragile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Fistulous.java" afterDir="false" />
+    <list default="true" id="a603ad91-7135-4236-8efa-9807cd3a278d" name="Changes" comment="z">
+      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Column.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Stalactite.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Stalagmite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/projetgrotte/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/projetgrotte/HelloApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/modelisation/CaveSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelisation/CaveSimulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/modelisation/Drop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelisation/Drop.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +30,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2QK1mvnkfjExZblL1szxrCvs4U2" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -39,13 +47,15 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/DevHome/1_ECOLE/java/projetGrotte",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -58,7 +68,8 @@
       <option name="presentableId" value="Default" />
       <updated>1685087621829</updated>
       <workItem from="1685087622850" duration="3237000" />
-      <workItem from="1686400437882" duration="4200000" />
+      <workItem from="1686400437882" duration="940000" />
+      <workItem from="1686402821227" duration="1527000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1685087997283</created>
@@ -67,21 +78,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685087997283</updated>
     </task>
-    <task id="LOCAL-00002" summary="adding modelisation without graphique">
-      <created>1686401415149</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1686401415149</updated>
-    </task>
-    <task id="LOCAL-00003" summary="adding main function">
-      <created>1686401526248</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1686401526248</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,8 +97,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
-    <MESSAGE value="adding modelisation without graphique" />
-    <MESSAGE value="adding main function" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding main function" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
