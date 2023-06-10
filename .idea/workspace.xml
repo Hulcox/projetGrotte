@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a603ad91-7135-4236-8efa-9807cd3a278d" name="Changes" comment="z">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/CaveSimulation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Drop.java" afterDir="false" />
+    <list default="true" id="a603ad91-7135-4236-8efa-9807cd3a278d" name="Changes" comment="adding main function">
+      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Concretion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/ConcretionFragile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/modelisation/Fistulous.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/modelisation/CaveSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelisation/CaveSimulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/modelisation/Drop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/modelisation/Drop.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +43,9 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -54,7 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1685087621829</updated>
       <workItem from="1685087622850" duration="3237000" />
-      <workItem from="1686400437882" duration="940000" />
+      <workItem from="1686400437882" duration="4200000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1685087997283</created>
@@ -63,7 +67,21 @@
       <option name="project" value="LOCAL" />
       <updated>1685087997283</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="adding modelisation without graphique">
+      <created>1686401415149</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1686401415149</updated>
+    </task>
+    <task id="LOCAL-00003" summary="adding main function">
+      <created>1686401526248</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1686401526248</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -82,6 +100,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+    <MESSAGE value="adding modelisation without graphique" />
+    <MESSAGE value="adding main function" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding main function" />
   </component>
 </project>

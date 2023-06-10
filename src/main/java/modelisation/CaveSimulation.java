@@ -5,69 +5,77 @@ import java.util.Random;
 
 public class CaveSimulation {
 
-    private List<Goutte> gouttes;
-    private List<Fistuleuse> fistuleuses;
+    private static final int ROOF_Y = 100;
+    private static final int GROUND_Y = 200;
+    private static final int DIAMETER_MIN = 5;
+    private static final int DIAMETER_MAX = 20;
+    private static final double WEIGTH_MIN = 0.1;
+    private static final double WEIGTH_MAX = 1.0;
+    private static final double LIMESTONE_MIN = 1.0;
+    private static final double LIMESTONE_MAX = 10.0;
+    private List<Drop> drops;
+    private List<Fistulous> fistulouses;
     private List<Stalactite> stalactites;
     private List<Stalagmite> stalagmites;
     private List<Colonne> colonnes;
     private List<Draperie> draperies;
 
-    public GrotteSimulation() {
-        gouttes = new ArrayList<>();
-        fistuleuses = new ArrayList<>();
+    public CaveSimulation() {
+        drops = new ArrayList<>();
+        fistulouses = new ArrayList<>();
         stalactites = new ArrayList<>();
         stalagmites = new ArrayList<>();
         colonnes = new ArrayList<>();
         draperies = new ArrayList<>();
     }
 
-    public void simuler(int nombrePasTemps) {
+    public void simulate(int nombrePasTemps) {
         Random random = new Random();
 
         for (int i = 0; i < nombrePasTemps; i++) {
             // Génération aléatoire de gouttes
             double posX = random.nextDouble() * 400;
-            double diametre = DIAMETRE_MIN + random.nextDouble() * (DIAMETRE_MAX - DIAMETRE_MIN);
-            double poids = POIDS_MIN + random.nextDouble() * (POIDS_MAX - POIDS_MIN);
-            double calcaire = CALCAIRE_MIN + random.nextDouble() * (CALCAIRE_MAX - CALCAIRE_MIN);
+            double diameter = DIAMETER_MIN + random.nextDouble() * (DIAMETER_MAX - DIAMETER_MIN);
+            double weigth = WEIGTH_MIN + random.nextDouble() * (WEIGTH_MAX - WEIGTH_MIN);
+            double limestone = LIMESTONE_MIN + random.nextDouble() * (LIMESTONE_MAX - LIMESTONE_MIN);
 
-            Goutte goutte = new Goutte(posX, PLAFOND_Y, diametre, poids, calcaire);
-            gouttes.add(goutte);
+            Drop drop = new Drop(posX, ROOF_Y, diameter, weigth, limestone);
+            drops.add(drop);
 
             // Simulation de la formation des concrétions
-            for (Goutte g : gouttes) {
-                g.chuter();
+            for (Drop g : drops) {
+                g.falling();
 
-                if (g.getY() + g.getDiametre() >= SOL_Y) {
-                    gouttes.remove(g);
+                if (g.getPosY() + g.getDiameter() >= GROUND_Y) {
+                    drops.remove(g);
 
-                    Fistuleuse fistuleuse = new Fistuleuse(g.getX(), SOL_Y - g.getDiametre(), g.getDiametre(), g.getCalcaire());
-                    fistuleuses.add(fistuleuse);
+                    Fistulous fistulous = new Fistulous(g.getPosX(), GROUND_Y - g.getDiameter(), g.getDiameter());
+                    fistulouses.add(fistulous);
                 }
             }
 
             System.out.println("État de la simulation pour le pas de temps " + (i + 1) + ":");
-            afficherConcretions();
+            showConcretions();
             System.out.println("---------------------------------------------");
         }
     }
 
-    public void afficherConcretions() {
+    public void showConcretions() {
         System.out.println("Gouttes:");
-        for (Goutte g : gouttes) {
-            System.out.println("Goutte - Position: (" + g.getX() + ", " + g.getY() + "), Diamètre: " + g.getDiametre() + ", Calcaire: " + g.getCalcaire());
+        for (Drop g : drops) {
+            System.out.println("Goutte - Position: (" + g.getPosX() + ", " + g.getPosY() + "), Diamètre: " + g.getWeigth() + ", Calcaire: " + g.getLimestone());
         }
 
         System.out.println("Fistuleuses:");
-        for (Fistuleuse f : fistuleuses) {
-            System.out.println("Fistuleuse - Position: (" + f.getX() + ", " + f.getY() + "), Diamètre: " + f.getDiametre() + ", Calcaire: " + f.getCalcaire());
+        for (Fistulous f : fistulouses) {
+            System.out.println("Fistuleuse - Position: (" + f.getPosX() + ", " + f.getPosY() + "), Diamètre: " + f.getDiameter());
         }
 
         // Afficher les autres types de concrétions (stalactites, stalagmites, colonnes, draperies) de la même manière
     }
 
     public static void main(String[] args) {
-        GrotteSimulation simulation = new GrotteSimulation();
-        simulation.simuler(10); // Simuler pendant 10 pas de temps
+        CaveSimulation simulation = new CaveSimulation();
+        simulation.simulate(10); // Simuler pendant 10 pas de temps
     }
 }
