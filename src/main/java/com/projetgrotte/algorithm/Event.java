@@ -7,8 +7,10 @@ import com.projetgrotte.algorithm.stalactite.Stalactite;
 import com.projetgrotte.algorithm.stalagmite.Stalagmite;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static com.projetgrotte.algorithm.CaveSimulation.CEILING_Y;
 
@@ -23,7 +25,7 @@ public class Event {
                     double posXMax = drop.getPosX() + drop.getDiameter() / 2;
                     for (Fistulous fistulous : fistulouses) {
                         if (fistulous.getPosX() > posXMin && fistulous.getPosX() < posXMax) {
-                            if (drop.getPosX() == fistulous.getPosX() && fistulous.isHollow()) {
+                            if (Math.round(drop.getPosX()) == Math.round(fistulous.getPosX()) && fistulous.isHollow()) {
                                 fistulous.setHollow(false);
                             }
                             fistulous.setSize(fistulous.getSize() + 1);
@@ -39,7 +41,7 @@ public class Event {
                     fistulouses.add(fistulous);
                 }
                 drop.falling();
-                System.out.println("Un goutte tombe");
+                //System.out.println("Un goutte tombe");
             }
             if (drop.isFalling()) {
                 drop.falling();
@@ -48,7 +50,7 @@ public class Event {
                 for (Stalagmite stalagmite : stalagmites) {
                     if (stalagmite.getPosX() > posXMin && stalagmite.getPosX() < posXMax) {
                         if (drop.getPosY() <= (stalagmite.getPosY() + stalagmite.getSize())) {
-                            System.out.println("Goutte sur stalagmite");
+                            //System.out.println("Goutte sur stalagmite");
                             stalagmite.setSize(stalagmite.getSize() + 1);
                             drop.setToDestroy(true);
                         }
@@ -76,14 +78,19 @@ public class Event {
 
     public static void fistulousIsBecomeStalagmite(List<Fistulous> fistulouses, List<Stalactite> stalactites, List<Stalagmite> stalagmites) {
         Iterator<Fistulous> iterator = fistulouses.iterator();
+        int counter = 0;
         while (iterator.hasNext()) {
             Fistulous fistulous = iterator.next();
-            if (fistulous.getSize() > 10) {
-                Stalactite stalactite = new Stalactite(fistulous.getPosX(), fistulous.getPosY(), fistulous.getDiameter(), fistulous.getSize());
-                stalactites.add(stalactite);
-                iterator.remove();
-                //TODO
-                //CASSER  LA FISTULEUSE si elle est creuse et > a 10wgt
+            counter++;
+            if(fistulous.getSize() > 10) {
+                if (!fistulous.isHollow()) {
+                    Stalactite stalactite = new Stalactite(fistulous.getPosX(), fistulous.getPosY(), fistulous.getDiameter(), fistulous.getSize());
+                    stalactites.add(stalactite);
+                    iterator.remove();
+                } else {
+                    System.out.println("\nFistuleuse " + counter + " détruite\n");
+                    iterator.remove();
+                }
             }
         }
     }
@@ -101,6 +108,19 @@ public class Event {
                     stalactiteIterator.remove();
                     stalagmiteIterator.remove();
                 }
+            }
+        }
+    }
+
+    public void shouldDraperyBeCreated(List<Stalactite> stalactites, double proximityThreshold) {
+        //Map<Integer, Double> stalactitesPosition = new HashMap<>();
+        //stalactites.forEach((stalactite, index) -> stalactitesPosition.put(index, stalactite.getPosX()));
+        for (int i = 0; i < stalactites.size() - 1; i++) {
+            Stalactite stalactite1 = stalactites.get(i);
+            Stalactite stalactite2 = stalactites.get(i + 1);
+            if (Math.abs(stalactite1.getPosX() - stalactite2.getPosX()) <= proximityThreshold) {
+                System.out.println("Draperie créé");
+                //Autres actions à effectuer en cas de formation de draperie...
             }
         }
     }

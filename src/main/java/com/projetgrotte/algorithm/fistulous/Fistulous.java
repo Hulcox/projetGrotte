@@ -49,6 +49,11 @@ public class Fistulous extends ConcretionFragile {
                             .append(fistulous.getDiameter())
                             .append("\n\tTaille : ")
                             .append(fistulous.getSize());
+                            if(fistulous.isHollow()){
+                                fistulousesStringified.append("\n\tCreuse");
+                            } else {
+                                fistulousesStringified.append("\n\tPleine");
+                            }
                     index[0]++;
                 }
         );

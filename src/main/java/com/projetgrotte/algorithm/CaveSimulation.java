@@ -17,7 +17,7 @@ import java.util.*;
 @Getter
 public class CaveSimulation {
 
-    public static final int SIZE_CAVE = 100;
+    public static final int SIZE_CAVE = 10;
     public static final int CEILING_Y = 100;
     private static final int GROUND_Y = 200;
     private List<Drop> drops = new ArrayList<>();
@@ -41,7 +41,7 @@ public class CaveSimulation {
         */
         CaveSimulation simulation = new CaveSimulation();
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(simulation.task, 0, 3000);
+        timer.scheduleAtFixedRate(simulation.task, 0, 200);
     }
 
     TimerTask task = new TimerTask() {
@@ -66,27 +66,21 @@ public class CaveSimulation {
             //check for create Column
             Event.shouldColumnsBeCreated(stalactites, stalagmites, columns);
             //check for create Drapery
+            Event.shouldDraperyBeCreated(stalactites, proximityThreshold);
             showConcretions();
         }
     };
 
     //TODO
-    /*public void checkForDrapery(double proximityThreshold) {
-        for (int i = 0; i < stalactites.size() - 1; i++) {
-            Stalactite stalactite1 = stalactites.get(i);
-            Stalactite stalactite2 = stalactites.get(i + 1);
-            if (Math.abs(stalactite1.getPosX() - stalactite2.getPosX()) <= proximityThreshold) {
-                System.out.println("Draperie formation detected");
-                // Autres actions à effectuer en cas de formation de draperie...
-            }
-        }
+    /*
     }*/
 
     public void showConcretions() {
-        String results = Drop.dropsToString(drops) +
+        String results =
+                //Drop.dropsToString(drops) +
                 Fistulous.fistulousesToString(fistulouses) +
-                Stalactite.stalactitesToString(stalactites) +
-                Stalagmite.stalagmitesToString(stalagmites);
+                Stalactite.stalactitesToString(stalactites);
+                //Stalagmite.stalagmitesToString(stalagmites);
         System.out.println("\nTOUR " + counter + results);
         this.setCounter(this.getCounter() + 1);
     }
