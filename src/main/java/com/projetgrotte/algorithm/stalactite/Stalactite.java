@@ -12,6 +12,8 @@ public class Stalactite extends Concretion {
 
     private double size;
 
+    private boolean isOnDrapery = false;
+
     public Stalactite(double posX, double posY, double diametre, double size) {
         super(posX, posY, diametre);
         this.size = size;
@@ -28,6 +30,9 @@ public class Stalactite extends Concretion {
                             .append(stalactite.getDiameter())
                             .append("\n\tTaille : ")
                             .append(stalactite.getSize());
+                    if (stalactite.isOnDrapery()) {
+                        stalactitesStringified.append("\n\tEst dans une draperie");
+                    }
                     index[0]++;
                 }
         );

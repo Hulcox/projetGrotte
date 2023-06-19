@@ -1,18 +1,20 @@
 package com.projetgrotte.algorithm.drapery;
 
 import com.projetgrotte.algorithm.stalactite.Stalactite;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class Drapery {
 
     private List<Stalactite> stalactites;
 
-    public Drapery(List<Stalactite> stalactites) {
-        this.stalactites = stalactites;
-    }
-
-    public void addStalactite(Stalactite stalactite) {
+    /*public void addStalactite(Stalactite stalactite) {
         stalactites.add(stalactite);
     }
 
@@ -20,9 +22,7 @@ public class Drapery {
         stalactites.remove(stalactite);
     }
 
-    public List<Stalactite> getStalactites() {
-        return stalactites;
-    }
+    */
 
 
 }

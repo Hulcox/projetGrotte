@@ -1,16 +1,14 @@
 package com.projetgrotte.algorithm;
 
 import com.projetgrotte.algorithm.column.Column;
+import com.projetgrotte.algorithm.drapery.Drapery;
 import com.projetgrotte.algorithm.drop.Drop;
 import com.projetgrotte.algorithm.fistulous.Fistulous;
 import com.projetgrotte.algorithm.stalactite.Stalactite;
 import com.projetgrotte.algorithm.stalagmite.Stalagmite;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.projetgrotte.algorithm.CaveSimulation.CEILING_Y;
 
@@ -82,7 +80,7 @@ public class Event {
         while (iterator.hasNext()) {
             Fistulous fistulous = iterator.next();
             counter++;
-            if(fistulous.getSize() > 10) {
+            if (fistulous.getSize() > 10) {
                 if (!fistulous.isHollow()) {
                     Stalactite stalactite = new Stalactite(fistulous.getPosX(), fistulous.getPosY(), fistulous.getDiameter(), fistulous.getSize());
                     stalactites.add(stalactite);
@@ -112,18 +110,40 @@ public class Event {
         }
     }
 
-    public void shouldDraperyBeCreated(List<Stalactite> stalactites, double proximityThreshold) {
-        //Map<Integer, Double> stalactitesPosition = new HashMap<>();
-        //stalactites.forEach((stalactite, index) -> stalactitesPosition.put(index, stalactite.getPosX()));
-        for (int i = 0; i < stalactites.size() - 1; i++) {
-            Stalactite stalactite1 = stalactites.get(i);
-            Stalactite stalactite2 = stalactites.get(i + 1);
-            if (Math.abs(stalactite1.getPosX() - stalactite2.getPosX()) <= proximityThreshold) {
-                System.out.println("Draperie créé");
-                //Autres actions à effectuer en cas de formation de draperie...
+    public static Optional<Drapery> shouldDraperyBeCreated(List<Stalactite> stalactites) {
+        for (Stalactite stalactite : stalactites) {
+            for (int i = 0; i < stalactites.size(); i++) {
+                if (stalactite.hashCode() != stalactites.get(i).hashCode()) {
+                    if (!stalactites.get(i).isOnDrapery()) {
+                        boolean isTwoStalactitesAreTouching = isTwoStalactitesAreTouching(stalactite, stalactites.get(i));
+                        if (isTwoStalactitesAreTouching) {
+                            stalactite.setOnDrapery(true);
+                            stalactites.get(i).setOnDrapery(true);
+                            return Optional.of(new Drapery(List.of(stalactite, stalactites.get(i))));
+                        }
+                    }
+                }
             }
         }
+        return Optional.empty();
     }
+
+    private static boolean isTwoStalactitesAreTouching(Stalactite stalactite1, Stalactite stalactite2) {
+        double[] stalactiteFirstPosition = getPositionStalactite(stalactite1);
+        double[] stalactiteSecondPosition = getPositionStalactite(stalactite2);
+        if (stalactiteFirstPosition[0] == stalactiteSecondPosition[1]
+                || stalactiteFirstPosition[1] == stalactiteSecondPosition[0]) {
+            return true;
+        }
+        return false;
+    }
+
+    private static double[] getPositionStalactite(Stalactite stalactite) {
+        double positionMin = stalactite.getPosX() - stalactite.getDiameter() / 2;
+        double positionMax = stalactite.getPosX() + stalactite.getDiameter() / 2;
+        return new double[]{positionMin, positionMax};
+    }
+
 
     public static boolean checkCollision(Stalactite stalactite, Stalagmite stalagmite) {
         double stalactitePosXMin = stalactite.getPosY() - stalactite.getDiameter() / 2;

@@ -66,14 +66,11 @@ public class CaveSimulation {
             //check for create Column
             Event.shouldColumnsBeCreated(stalactites, stalagmites, columns);
             //check for create Drapery
-            Event.shouldDraperyBeCreated(stalactites, proximityThreshold);
+            Optional<Drapery> drapery = Event.shouldDraperyBeCreated(stalactites);
+            drapery.ifPresent(value -> draperies.add(value));
             showConcretions();
         }
     };
-
-    //TODO
-    /*
-    }*/
 
     public void showConcretions() {
         String results =
