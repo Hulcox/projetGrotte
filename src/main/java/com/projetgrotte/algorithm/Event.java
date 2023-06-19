@@ -110,7 +110,8 @@ public class Event {
         }
     }
 
-    public static Optional<Drapery> shouldDraperyBeCreated(List<Stalactite> stalactites) {
+    public static List<Drapery> shouldDraperyBeCreated(List<Stalactite> stalactites) {
+        List<Drapery> draperies = new ArrayList<>();
         for (Stalactite stalactite : stalactites) {
             for (int i = 0; i < stalactites.size(); i++) {
                 if (stalactite.hashCode() != stalactites.get(i).hashCode()) {
@@ -119,13 +120,13 @@ public class Event {
                         if (isTwoStalactitesAreTouching) {
                             stalactite.setOnDrapery(true);
                             stalactites.get(i).setOnDrapery(true);
-                            return Optional.of(new Drapery(List.of(stalactite, stalactites.get(i))));
+                            draperies.add(new Drapery(List.of(stalactite, stalactites.get(i))));
                         }
                     }
                 }
             }
         }
-        return Optional.empty();
+        return draperies;
     }
 
     private static boolean isTwoStalactitesAreTouching(Stalactite stalactite1, Stalactite stalactite2) {
