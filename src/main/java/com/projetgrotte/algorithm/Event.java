@@ -82,7 +82,7 @@ public class Event {
             counter++;
             if (fistulous.getSize() > 10) {
                 if (!fistulous.isHollow()) {
-                    Stalactite stalactite = new Stalactite(fistulous.getPosX(), fistulous.getPosY(), fistulous.getDiameter(), fistulous.getSize());
+                    Stalactite stalactite = new Stalactite(fistulous.getPosX(), fistulous.getPosY(), fistulous.getDiameter(), fistulous.getSize(), stalactites.size() + 1);
                     stalactites.add(stalactite);
                     iterator.remove();
                 } else {
@@ -132,6 +132,7 @@ public class Event {
     private static boolean isTwoStalactitesAreTouching(Stalactite stalactite1, Stalactite stalactite2) {
         double[] stalactiteFirstPosition = getPositionStalactite(stalactite1);
         double[] stalactiteSecondPosition = getPositionStalactite(stalactite2);
+        //System.out.println(Arrays.toString(stalactiteFirstPosition) + " - " + Arrays.toString(stalactiteSecondPosition));
         if (stalactiteFirstPosition[0] == stalactiteSecondPosition[1]
                 || stalactiteFirstPosition[1] == stalactiteSecondPosition[0]) {
             return true;

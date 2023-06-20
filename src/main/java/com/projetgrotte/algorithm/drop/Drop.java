@@ -25,7 +25,7 @@ public class Drop extends Concretion {
     private boolean toDestroy = false;
 
     public static Drop dropBuilder() {
-        double posX = Math.round(new Random().nextDouble() * SIZE_CAVE * 100.0) / 100.0;
+        double posX = Math.round(new Random().nextDouble() * SIZE_CAVE * 100.0 / 100.0);
         return new Drop(posX, CEILING_Y);
     }
 
