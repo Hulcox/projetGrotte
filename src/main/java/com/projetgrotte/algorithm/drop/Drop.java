@@ -72,7 +72,10 @@ public class Drop extends Concretion {
                 double posXMin = secondDrop.getPosX() - secondDrop.getDiameter() / 2;
                 double posXMax = secondDrop.getPosX() + secondDrop.getDiameter() / 2;
 
-                if (this.getPosX() > posXMin && this.getPosX() < posXMax && !secondDrop.isFalling()) {
+                double posXMinCurrentDrop = this.getPosX() - this.getDiameter() / 2;
+                double posXMaxCurrentDrop = this.getPosX() + this.getDiameter() / 2;
+
+                if ((posXMinCurrentDrop > posXMin && posXMinCurrentDrop < posXMax) || (posXMaxCurrentDrop > posXMin && posXMaxCurrentDrop < posXMax) && !secondDrop.isFalling()) {
                     //System.out.println("Goutte doit evoluer");
                     secondDrop.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
                     matchFound = true;
