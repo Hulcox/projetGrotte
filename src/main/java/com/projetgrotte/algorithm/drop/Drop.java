@@ -43,23 +43,26 @@ public class Drop extends Concretion {
     }
 
     public void isDropOnConcretion(List<Fistulous> fistulouses, List<Stalactite> stalactites) {
+        
+        double posXMinCurrentDrop = this.getPosX() - this.getDiameter() / 2;
+        double posXMaxCurrentDrop = this.getPosX() + this.getDiameter() / 2;
         //Verifie si la goutte est sur une fistuleuse
         for (Fistulous fistulous : fistulouses) {
-            double posXMin = fistulous.getPosX() - fistulous.getDiameter() / 2;
-            double posXMax = fistulous.getPosX() + fistulous.getDiameter() / 2;
-            if (this.getPosX() > posXMin && this.getPosX() < posXMax) {
-                //System.out.println("Goutte sur fistuleuse");
-                this.setPosY(this.getPosY() - fistulous.getSize());
-            }
+            checkDropOnConcretions(posXMinCurrentDrop, posXMaxCurrentDrop, fistulous.getPosX(), fistulous.getDiameter(), fistulous.getSize());
         }
-        //Verifie si la goutte est sur une fistuleuse
+        //Verifie si la goutte est sur une stalactite
         for (Stalactite stalactite : stalactites) {
-            double posXMin = stalactite.getPosX() - stalactite.getDiameter() / 2;
-            double posXMax = stalactite.getPosX() + stalactite.getDiameter() / 2;
-            if (this.getPosY() > posXMin && this.getPosX() < posXMax) {
-                //System.out.println("Goutte sur Stalactite");
-                this.setPosY(this.getPosY() - stalactite.getSize());
-            }
+            checkDropOnConcretions(posXMinCurrentDrop, posXMaxCurrentDrop, stalactite.getPosX(), stalactite.getDiameter(), stalactite.getSize());
+        }
+    }
+
+    private void checkDropOnConcretions(double posXMinCurrentDrop, double posXMaxCurrentDrop, double posX, double diameter, double size) {
+        double posXMin = posX - diameter / 2;
+        double posXMax = posX + diameter / 2;
+
+        if ((posXMinCurrentDrop > posXMin && posXMinCurrentDrop < posXMax) || (posXMaxCurrentDrop > posXMin && posXMaxCurrentDrop < posXMax)) {
+            //System.out.println("Goutte sur fistuleuse");
+            this.setPosY(this.getPosY() - size);
         }
     }
 
@@ -75,7 +78,7 @@ public class Drop extends Concretion {
                 double posXMinCurrentDrop = this.getPosX() - this.getDiameter() / 2;
                 double posXMaxCurrentDrop = this.getPosX() + this.getDiameter() / 2;
 
-                if ((posXMinCurrentDrop > posXMin && posXMinCurrentDrop < posXMax) || (posXMaxCurrentDrop > posXMin && posXMaxCurrentDrop < posXMax) && !secondDrop.isFalling()) {
+                if ((posXMinCurrentDrop >= posXMin && posXMinCurrentDrop <= posXMax) || (posXMaxCurrentDrop >= posXMin && posXMaxCurrentDrop <= posXMax) && !secondDrop.isFalling()) {
                     //System.out.println("Goutte doit evoluer");
                     secondDrop.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
                     matchFound = true;
