@@ -1,10 +1,11 @@
 package com.projetgrotte.algorithm.fistulous;
 
 import com.projetgrotte.algorithm.ConcretionFragile;
-import com.projetgrotte.algorithm.drop.Drop;
+import com.projetgrotte.algorithm.stalactite.Stalactite;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Getter
@@ -35,6 +36,25 @@ public class Fistulous extends ConcretionFragile {
     @Override
     public void evolve(double newWeight, double newLimestone, double newDiameter) {
         //TODO
+    }
+
+    public static void fistulousIsBecomeStalagmite(List<Fistulous> fistulouses, List<Stalactite> stalactites) {
+        Iterator<Fistulous> iterator = fistulouses.iterator();
+        int counter = 0;
+        while (iterator.hasNext()) {
+            Fistulous fistulous = iterator.next();
+            counter++;
+            if (fistulous.getSize() > 10) {
+                if (!fistulous.isHollow()) {
+                    Stalactite stalactite = new Stalactite(fistulous.getPosX(), fistulous.getPosY(), fistulous.getDiameter(), fistulous.getSize(), stalactites.size() + 1);
+                    stalactites.add(stalactite);
+                    iterator.remove();
+                } else {
+                    System.out.println("\nFistuleuse " + counter + " détruite\n");
+                    iterator.remove();
+                }
+            }
+        }
     }
 
     public static String fistulousesToString(List<Fistulous> fistulouses) {

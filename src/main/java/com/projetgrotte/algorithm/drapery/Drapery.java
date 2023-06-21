@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,6 +14,25 @@ import java.util.List;
 public class Drapery {
 
     private List<Stalactite> stalactites;
+
+    public static List<Drapery> shouldDraperyBeCreated(List<Stalactite> stalactites) {
+        List<Drapery> draperies = new ArrayList<>();
+        for (Stalactite stalactite : stalactites) {
+            for (Stalactite value : stalactites) {
+                if (stalactite.hashCode() != value.hashCode()) {
+                    if (!value.isOnDrapery()) {
+                        boolean isTwoStalactitesAreTouching = Stalactite.isTwoStalactitesAreTouching(stalactite, value);
+                        if (isTwoStalactitesAreTouching) {
+                            stalactite.setOnDrapery(true);
+                            value.setOnDrapery(true);
+                            draperies.add(new Drapery(List.of(stalactite, value)));
+                        }
+                    }
+                }
+            }
+        }
+        return draperies;
+    }
 
     public static String draperiesToString(List<Drapery> draperies) {
         StringBuilder draperiesStringified = new StringBuilder();
@@ -31,16 +51,4 @@ public class Drapery {
         );
         return draperiesStringified.toString();
     }
-
-    /*public void addStalactite(Stalactite stalactite) {
-        stalactites.add(stalactite);
-    }
-
-    public void removeStalactite(Stalactite stalactite) {
-        stalactites.remove(stalactite);
-    }
-
-    */
-
-
 }

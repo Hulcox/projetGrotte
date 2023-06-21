@@ -21,6 +21,28 @@ public class Stalactite extends Concretion {
         this.size = size;
     }
 
+    @Override
+    public void evolve(double newWeight, double newLimestone, double newDiameter) {
+        //TODO
+    }
+
+    public static boolean isTwoStalactitesAreTouching(Stalactite stalactite1, Stalactite stalactite2) {
+        double[] stalactiteFirstPosition = getPositionStalactite(stalactite1);
+        double[] stalactiteSecondPosition = getPositionStalactite(stalactite2);
+        //System.out.println(Arrays.toString(stalactiteFirstPosition) + " - " + Arrays.toString(stalactiteSecondPosition));
+        if (stalactiteFirstPosition[0] == stalactiteSecondPosition[1]
+                || stalactiteFirstPosition[1] == stalactiteSecondPosition[0]) {
+            return true;
+        }
+        return false;
+    }
+
+    private static double[] getPositionStalactite(Stalactite stalactite) {
+        double positionMin = stalactite.getPosX() - stalactite.getDiameter() / 2;
+        double positionMax = stalactite.getPosX() + stalactite.getDiameter() / 2;
+        return new double[]{positionMin, positionMax};
+    }
+
     public static String stalactitesToString(List<Stalactite> stalactites) {
         StringBuilder stalactitesStringified = new StringBuilder();
         stalactitesStringified.append("\n\n---------- STALACTITES ----------");
@@ -40,8 +62,4 @@ public class Stalactite extends Concretion {
         return stalactitesStringified.toString();
     }
 
-    @Override
-    public void evolve(double newWeight, double newLimestone, double newDiameter) {
-        //TODO
-    }
 }

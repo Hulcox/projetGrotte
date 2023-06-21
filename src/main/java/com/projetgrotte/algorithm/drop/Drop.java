@@ -3,9 +3,11 @@ package com.projetgrotte.algorithm.drop;
 import com.projetgrotte.algorithm.Concretion;
 import com.projetgrotte.algorithm.fistulous.Fistulous;
 import com.projetgrotte.algorithm.stalactite.Stalactite;
+import com.projetgrotte.algorithm.stalagmite.Stalagmite;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -97,6 +99,22 @@ public class Drop extends Concretion {
         isFalling = true;
     }
 
+    public static void fallenDropIsDestroyed(List<Drop> drops, List<Stalagmite> stalagmites) {
+        Iterator<Drop> iterator = drops.iterator();
+        while (iterator.hasNext()) {
+            Drop drop = iterator.next();
+            if (drop.isToDestroy()) {
+                iterator.remove();
+            } else {
+                if (drop.getPosY() <= 0) {
+                    Stalagmite stalagmite = new Stalagmite(drop.getPosX(), 0, drop.getDiameter(), 1);
+                    stalagmites.add(stalagmite);
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
     //TODO
     /*public void fuse(Drop otherDrop) {
         double newSize = this.size + otherDrop.getSize();
@@ -123,5 +141,48 @@ public class Drop extends Concretion {
             index[0]++;
         });
         return dropsStringified.toString();
+    }
+
+    public static void tooHeavyDropsFall(List<Drop> drops, List<Fistulous> fistulouses, List<Stalactite> stalactites, List<Stalagmite> stalagmites) {
+        for (Drop drop : drops) {
+            if (drop.getWeight() >= 10 && !drop.isFalling()) {
+                if (drop.getPosY() != 100) {
+                    double posXMin = drop.getPosX() - drop.getDiameter() / 2;
+                    double posXMax = drop.getPosX() + drop.getDiameter() / 2;
+                    for (Fistulous fistulous : fistulouses) {
+                        if (fistulous.getPosX() > posXMin && fistulous.getPosX() < posXMax) {
+                            if (Math.round(drop.getPosX()) == Math.round(fistulous.getPosX()) && fistulous.isHollow()) {
+                                fistulous.setHollow(false);
+                            }
+                            fistulous.setSize(fistulous.getSize() + 1);
+                        }
+                    }
+                    for (Stalactite stalactite : stalactites) {
+                        if (stalactite.getPosX() > posXMin && stalactite.getPosX() < posXMax) {
+                            stalactite.setSize(stalactite.getSize() + 1);
+                        }
+                    }
+                } else {
+                    Fistulous fistulous = new Fistulous(drop.getPosX(), CEILING_Y, drop.getDiameter());
+                    fistulouses.add(fistulous);
+                }
+                drop.falling();
+                //System.out.println("Un goutte tombe");
+            }
+            if (drop.isFalling()) {
+                drop.falling();
+                double posXMin = drop.getPosX() - drop.getDiameter() / 2;
+                double posXMax = drop.getPosX() + drop.getDiameter() / 2;
+                for (Stalagmite stalagmite : stalagmites) {
+                    if (stalagmite.getPosX() > posXMin && stalagmite.getPosX() < posXMax) {
+                        if (drop.getPosY() <= (stalagmite.getPosY() + stalagmite.getSize())) {
+                            //System.out.println("Goutte sur stalagmite");
+                            stalagmite.setSize(stalagmite.getSize() + 1);
+                            drop.setToDestroy(true);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

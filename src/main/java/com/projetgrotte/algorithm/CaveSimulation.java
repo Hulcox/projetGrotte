@@ -62,15 +62,16 @@ public class CaveSimulation {
                 drop.isDropOnAnotherDrop(drops);
             }
             //Verifie si une goutte tombe a cause de son poids
-            Event.tooHeavyDropsFall(drops, fistulouses, stalactites, stalagmites);
+            Drop.tooHeavyDropsFall(drops, fistulouses, stalactites, stalagmites);
             //Verifie si la goutte se detruit lorsqu'elle tombe
-            Event.fallenDropIsDestroyed(drops, stalagmites);
+            Drop.fallenDropIsDestroyed(drops, stalagmites);
             //Verifie si une fistuleuse devient une stalagmite
-            Event.fistulousIsBecomeStalagmite(fistulouses, stalactites, stalagmites);
+            Fistulous.fistulousIsBecomeStalagmite(fistulouses, stalactites);
             //check for create Column
-            Event.shouldColumnsBeCreated(stalactites, stalagmites, columns);
+            Optional<Column> optionalColumn = Column.shouldColumnsBeCreated(stalactites, stalagmites);
+            optionalColumn.ifPresent(column -> columns.add(column));
             //check for create Drapery
-            List<Drapery> newDraperies = Event.shouldDraperyBeCreated(stalactites);
+            List<Drapery> newDraperies = Drapery.shouldDraperyBeCreated(stalactites);
             draperies.addAll(newDraperies);
             showConcretions();
         }
