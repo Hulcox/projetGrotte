@@ -39,13 +39,12 @@ public class Drop extends Concretion {
 
     @Override
     public void evolve(double newWeight, double newLimestone, double newDiameter) {
-        this.weight += newWeight;
-        this.limestone += newLimestone;
-        super.setDiameter(getDiameter() + newDiameter);
+        setWeight(this.getWeight() + newWeight);
+        setLimestone(this.getLimestone() + newLimestone);
+        super.setDiameter(this.getDiameter() + newDiameter);
     }
 
     public void isDropOnConcretion(List<Fistulous> fistulouses, List<Stalactite> stalactites) {
-        
         double posXMinCurrentDrop = this.getPosX() - this.getDiameter() / 2;
         double posXMaxCurrentDrop = this.getPosX() + this.getDiameter() / 2;
         //Verifie si la goutte est sur une fistuleuse
@@ -69,27 +68,45 @@ public class Drop extends Concretion {
     }
 
     public void isDropOnAnotherDrop(List<Drop> drops) {
-        if (drops.isEmpty()) {
+        boolean noDrops = drops.isEmpty();
+        if (noDrops) {
             drops.add(this);
         } else {
-            boolean matchFound = false;
+            boolean isNotOnAnotherDrop = true;
             for (Drop secondDrop : drops) {
-                double posXMin = secondDrop.getPosX() - secondDrop.getDiameter() / 2;
-                double posXMax = secondDrop.getPosX() + secondDrop.getDiameter() / 2;
+                double[] posXCurrentDrop = getSurfaceCoveredByDrop(this);
+                double[] posXSecondDrop = getSurfaceCoveredByDrop(secondDrop);
 
-                double posXMinCurrentDrop = this.getPosX() - this.getDiameter() / 2;
-                double posXMaxCurrentDrop = this.getPosX() + this.getDiameter() / 2;
-
-                if ((posXMinCurrentDrop >= posXMin && posXMinCurrentDrop <= posXMax) || (posXMaxCurrentDrop >= posXMin && posXMaxCurrentDrop <= posXMax) && !secondDrop.isFalling()) {
-                    //System.out.println("Goutte doit evoluer");
-                    secondDrop.evolve(WEIGTH, LIMESTONE_CHARGE, DIAMETER);
-                    matchFound = true;
+                //System.out.println(Arrays.toString(posXCurrentDrop) +", "+ Arrays.toString(posXSecondDrop));
+                boolean secondAndCurrentDropAreStuck = checkValuesAreInRange(posXCurrentDrop, posXSecondDrop);
+                //System.out.println(secondAndCurrentDropAreStuck);
+                if (secondAndCurrentDropAreStuck && !secondDrop.isFalling()) {
+                    System.out.println("Goutte doit evoluer");
+                    secondDrop.evolve(secondDrop.getWeight(), secondDrop.getLimestone(), secondDrop.getDiameter());
+                    isNotOnAnotherDrop = false;
                 }
             }
-            if (!matchFound) {
+            if (isNotOnAnotherDrop) {
                 drops.add(this);
             }
         }
+    }
+
+    private static double[] getSurfaceCoveredByDrop(Drop drop) {
+        double positionMin = drop.getPosX() - drop.getDiameter() / 2;
+        double positionMax = drop.getPosX() + drop.getDiameter() / 2;
+        return new double[]{positionMin, positionMax};
+    }
+
+    public static boolean checkValuesAreInRange(double[] array1, double[] array2) {
+        for (double value : array1) {
+            double minValue = Math.min(array2[0], array2[1]);
+            double maxValue = Math.max(array2[0], array2[1]);
+            if (minValue < value && value < maxValue) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void falling() {
@@ -124,29 +141,10 @@ public class Drop extends Concretion {
         this.limestone = newLimeStone;
     }*/
 
-    public static String dropsToString(List<Drop> drops) {
-        StringBuilder dropsStringified = new StringBuilder();
-        final int[] index = {1};
-        dropsStringified.append("\n\n---------- GOUTTES ---------- ");
-        drops.forEach(drop -> {
-            dropsStringified.append("\nGoutte N°").append(index[0])
-                    .append("\n\tPosition : (")
-                    .append(drop.getPosX()).append(",").append(drop.getPosY())
-                    .append(")\n\tPoids : ")
-                    .append(drop.getWeight())
-                    .append("\n\tDiamètre : ")
-                    .append(drop.getDiameter())
-                    .append("\n\tCalcaire : ")
-                    .append(drop.getLimestone());
-            index[0]++;
-        });
-        return dropsStringified.toString();
-    }
-
     public static void tooHeavyDropsFall(List<Drop> drops, List<Fistulous> fistulouses, List<Stalactite> stalactites, List<Stalagmite> stalagmites) {
         for (Drop drop : drops) {
             if (drop.getWeight() >= 10 && !drop.isFalling()) {
-                if (drop.getPosY() != 100) {
+                if (drop.getPosY() != CEILING_Y) {
                     double posXMin = drop.getPosX() - drop.getDiameter() / 2;
                     double posXMax = drop.getPosX() + drop.getDiameter() / 2;
                     for (Fistulous fistulous : fistulouses) {
@@ -184,5 +182,24 @@ public class Drop extends Concretion {
                 }
             }
         }
+    }
+
+    public static String dropsToString(List<Drop> drops) {
+        StringBuilder dropsStringified = new StringBuilder();
+        final int[] index = {1};
+        dropsStringified.append("\n\n---------- GOUTTES ---------- ");
+        drops.forEach(drop -> {
+            dropsStringified.append("\nGoutte N°").append(index[0])
+                    .append("\n\tPosition : (")
+                    .append(drop.getPosX()).append(",").append(drop.getPosY())
+                    .append(")\n\tPoids : ")
+                    .append(drop.getWeight())
+                    .append("\n\tDiamètre : ")
+                    .append(drop.getDiameter())
+                    .append("\n\tCalcaire : ")
+                    .append(drop.getLimestone());
+            index[0]++;
+        });
+        return dropsStringified.toString();
     }
 }
