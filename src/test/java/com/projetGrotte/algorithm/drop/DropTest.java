@@ -38,11 +38,11 @@ class DropTest {
         double initialPosY = drop.getPosY();
         double sizeTouchedStalactite = 8.0;
 
-        Fistulous fistulous1 = new Fistulous(3.0, CEILING_Y, 2.0);
-        Fistulous fistulous2 = new Fistulous(7.0, CEILING_Y, 2.0);
-        Stalactite stalactite1 = new Stalactite(5.0, CEILING_Y, 4.0, 7.0, 1);
+        Fistulous fistulous1 = new Fistulous(3.0, 2.0);
+        Fistulous fistulous2 = new Fistulous(7.0, 2.0);
+        Stalactite stalactite1 = new Stalactite(5.0, 4.0, 7.0, 1);
         //ici la stalactite que la goutte touche
-        Stalactite stalactite2 = new Stalactite(14.0, CEILING_Y, 4.0, sizeTouchedStalactite, 2);
+        Stalactite stalactite2 = new Stalactite(14.0, 4.0, sizeTouchedStalactite, 2);
 
         List<Fistulous> fistulouses = new ArrayList<>();
         fistulouses.add(fistulous1);
@@ -80,7 +80,7 @@ class DropTest {
         Drop drop = new Drop(5.0, CEILING_Y);
         double initialDiameter = drop.getDiameter();
 
-        Drop dropTest1 = new Drop(3.0, CEILING_Y);
+        Drop dropTest1 = new Drop(2.0, CEILING_Y);
         Drop dropTest2 = new Drop(6.0, CEILING_Y);
 
         List<Drop> drops = new ArrayList<>();
@@ -157,7 +157,6 @@ class DropTest {
 
         Stalagmite stalagmite = stalagmites.get(0);
         assertEquals(drop3.getPosX(), stalagmite.getPosX());
-        assertEquals(0.0, stalagmite.getPosY());
     }
 
     @Test
@@ -183,7 +182,6 @@ class DropTest {
         assertEquals(1, fistulouses.size());
         Fistulous fistulous = fistulouses.get(0);
         assertEquals(drop1.getPosX(), fistulous.getPosX());
-        assertEquals(CEILING_Y, fistulous.getPosY());
         assertEquals(drop1.getDiameter(), fistulous.getDiameter());
         assertTrue(fistulous.isHollow());
     }

@@ -49,7 +49,7 @@ public class CaveSimulation {
         public void run() {
             //POUR DEBUG, A SUPPRIMER
             if (counter == 1) {
-                stalactites.addAll(List.of(new Stalactite(3, 3, 2, 6, 1), new Stalactite(5, 3, 2, 6, 2)));
+                stalactites.addAll(List.of(new Stalactite(3,  2, 6, 1), new Stalactite(5, 2, 6, 2)));
             }
             Random random = new Random();
             if (random.nextBoolean()) {
@@ -65,7 +65,7 @@ public class CaveSimulation {
             //Verifie si la goutte se detruit lorsqu'elle tombe
             Drop.fallenDropIsDestroyed(drops, stalagmites);
             //Verifie si une fistuleuse devient une stalagmite
-            Fistulous.fistulousIsBecomeStalagmite(fistulouses, stalactites);
+            Fistulous.fistulousIsBecomeStalactite(fistulouses, stalactites);
             //check for create Column
             Optional<Column> optionalColumn = Column.shouldColumnsBeCreated(stalactites, stalagmites);
             optionalColumn.ifPresent(column -> columns.add(column));
@@ -85,5 +85,16 @@ public class CaveSimulation {
         //Stalagmite.stalagmitesToString(stalagmites);
         System.out.println("\nTOUR " + counter + results);
         this.setCounter(this.getCounter() + 1);
+    }
+
+    public static boolean checkValuesAreInRange(double[] array1, double[] array2) {
+        for (double value : array1) {
+            double minValue = Math.min(array2[0], array2[1]);
+            double maxValue = Math.max(array2[0], array2[1]);
+            if (minValue <= value && value <= maxValue) {
+                return true;
+            }
+        }
+        return false;
     }
 }

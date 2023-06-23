@@ -1,8 +1,9 @@
 package com.projetgrotte.algorithm.column;
 
+import com.projetgrotte.algorithm.CaveSimulation;
+import com.projetgrotte.algorithm.Concretion;
 import com.projetgrotte.algorithm.stalactite.Stalactite;
 import com.projetgrotte.algorithm.stalagmite.Stalagmite;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +15,11 @@ import static com.projetgrotte.algorithm.CaveSimulation.CEILING_Y;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class Column {
+public class Column extends Concretion {
 
-    private Stalactite stalactite;
-    private Stalagmite stalagmite;
+    public Column(double posX, double diameter) {
+        super(posX, diameter);
+    }
 
     public static Optional<Column> shouldColumnsBeCreated(List<Stalactite> stalactites, List<Stalagmite> stalagmites) {
         Iterator<Stalactite> stalactiteIterator = stalactites.iterator();
@@ -30,7 +31,9 @@ public class Column {
                 if (isCollisionHappenedBetweenStalactitesAndStalagmites(stalactite, stalagmite)) {
                     stalactiteIterator.remove();
                     stalagmiteIterator.remove();
-                    return Optional.of(new Column(stalactite, stalagmite));
+                    double posXColumn = (stalactite.getPosX() + stalagmite.getPosX()) / 2;
+                    double diameterColumn = stalactite.getDiameter() + stalagmite.getDiameter();
+                    return Optional.of(new Column(posXColumn, diameterColumn));
                 }
             }
         }
@@ -38,13 +41,17 @@ public class Column {
     }
 
     public static boolean isCollisionHappenedBetweenStalactitesAndStalagmites(Stalactite stalactite, Stalagmite stalagmite) {
-        double stalactitePosXMin = stalactite.getPosY() - stalactite.getDiameter() / 2;
-        double stalactitePosXMax = stalactite.getPosY() + stalactite.getDiameter() / 2;
-        double stalagmitePosXMin = stalagmite.getPosY() - stalagmite.getSize() / 2;
-        double stalagmitePosXMax = stalagmite.getPosY() + stalagmite.getSize() / 2;
-        if (stalagmitePosXMin >= stalactitePosXMin && stalagmitePosXMin <= stalactitePosXMax || stalagmitePosXMax >= stalactitePosXMin && stalagmitePosXMax <= stalactitePosXMax) {
+        double[] stalactitePos = Stalactite.getSurfaceCoveredByStalactite(stalactite);
+        double[] stalagmitePos = Stalagmite.getSurfaceCoveredByStalagmite(stalagmite);
+        boolean stalagmiteAndStalactiteTouch = CaveSimulation.checkValuesAreInRange(stalactitePos, stalagmitePos);
+        if (stalagmiteAndStalactiteTouch) {
             return stalactite.getSize() + stalagmite.getSize() >= CEILING_Y;
         }
         return false;
+    }
+
+    @Override
+    public void evolve(double newWeight, double newLimestone, double newDiameter) {
+        // TODO
     }
 }

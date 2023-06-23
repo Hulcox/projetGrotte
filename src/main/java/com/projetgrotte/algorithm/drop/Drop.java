@@ -1,5 +1,6 @@
 package com.projetgrotte.algorithm.drop;
 
+import com.projetgrotte.algorithm.CaveSimulation;
 import com.projetgrotte.algorithm.Concretion;
 import com.projetgrotte.algorithm.fistulous.Fistulous;
 import com.projetgrotte.algorithm.stalactite.Stalactite;
@@ -21,6 +22,8 @@ public class Drop extends Concretion {
     private static final int DIAMETER = 2;
     private static final double WEIGTH = 4;
     private static final double LIMESTONE_CHARGE = 10.0;
+
+    private double posY;
     private double weight;
     private double limestone;
     private boolean isFalling = false;
@@ -32,7 +35,8 @@ public class Drop extends Concretion {
     }
 
     public Drop(double posX, double posY) {
-        super(posX, posY, DIAMETER);
+        super(posX, DIAMETER);
+        this.posY = posY;
         this.weight = WEIGTH;
         this.limestone = LIMESTONE_CHARGE;
     }
@@ -76,9 +80,8 @@ public class Drop extends Concretion {
             for (Drop secondDrop : drops) {
                 double[] posXCurrentDrop = getSurfaceCoveredByDrop(this);
                 double[] posXSecondDrop = getSurfaceCoveredByDrop(secondDrop);
-
                 //System.out.println(Arrays.toString(posXCurrentDrop) +", "+ Arrays.toString(posXSecondDrop));
-                boolean secondAndCurrentDropAreStuck = checkValuesAreInRange(posXCurrentDrop, posXSecondDrop);
+                boolean secondAndCurrentDropAreStuck = CaveSimulation.checkValuesAreInRange(posXCurrentDrop, posXSecondDrop);
                 //System.out.println(secondAndCurrentDropAreStuck);
                 if (secondAndCurrentDropAreStuck && !secondDrop.isFalling()) {
                     System.out.println("Goutte doit evoluer");
@@ -98,17 +101,6 @@ public class Drop extends Concretion {
         return new double[]{positionMin, positionMax};
     }
 
-    public static boolean checkValuesAreInRange(double[] array1, double[] array2) {
-        for (double value : array1) {
-            double minValue = Math.min(array2[0], array2[1]);
-            double maxValue = Math.max(array2[0], array2[1]);
-            if (minValue < value && value < maxValue) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void falling() {
         double gravity = 0.98;
         double posY = getPosY() - (weight * gravity);
@@ -124,7 +116,7 @@ public class Drop extends Concretion {
                 iterator.remove();
             } else {
                 if (drop.getPosY() <= 0) {
-                    Stalagmite stalagmite = new Stalagmite(drop.getPosX(), 0, drop.getDiameter(), 1);
+                    Stalagmite stalagmite = new Stalagmite(drop.getPosX(), drop.getDiameter(), 1);
                     stalagmites.add(stalagmite);
                     iterator.remove();
                 }
@@ -161,7 +153,7 @@ public class Drop extends Concretion {
                         }
                     }
                 } else {
-                    Fistulous fistulous = new Fistulous(drop.getPosX(), CEILING_Y, drop.getDiameter());
+                    Fistulous fistulous = new Fistulous(drop.getPosX(), drop.getDiameter());
                     fistulouses.add(fistulous);
                 }
                 drop.falling();
@@ -173,7 +165,7 @@ public class Drop extends Concretion {
                 double posXMax = drop.getPosX() + drop.getDiameter() / 2;
                 for (Stalagmite stalagmite : stalagmites) {
                     if (stalagmite.getPosX() > posXMin && stalagmite.getPosX() < posXMax) {
-                        if (drop.getPosY() <= (stalagmite.getPosY() + stalagmite.getSize())) {
+                        if (drop.getPosY() <= stalagmite.getSize()) {
                             //System.out.println("Goutte sur stalagmite");
                             stalagmite.setSize(stalagmite.getSize() + 1);
                             drop.setToDestroy(true);

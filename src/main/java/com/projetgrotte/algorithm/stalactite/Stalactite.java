@@ -1,5 +1,6 @@
 package com.projetgrotte.algorithm.stalactite;
 
+import com.projetgrotte.algorithm.CaveSimulation;
 import com.projetgrotte.algorithm.Concretion;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,12 +12,11 @@ import java.util.List;
 public class Stalactite extends Concretion {
 
     private double size;
-
     private int index;
     private boolean isOnDrapery = false;
 
-    public Stalactite(double posX, double posY, double diametre, double size, int index) {
-        super(posX, posY, diametre);
+    public Stalactite(double posX, double diametre, double size, int index) {
+        super(posX, diametre);
         this.index = index;
         this.size = size;
     }
@@ -27,20 +27,10 @@ public class Stalactite extends Concretion {
     }
 
     public static boolean isTwoStalactitesAreTouching(Stalactite stalactite1, Stalactite stalactite2) {
-        double[] stalactiteFirstPosition = getPositionStalactite(stalactite1);
-        double[] stalactiteSecondPosition = getPositionStalactite(stalactite2);
+        double[] stalactiteFirstPosition = getSurfaceCoveredByStalactite(stalactite1);
+        double[] stalactiteSecondPosition = getSurfaceCoveredByStalactite(stalactite2);
         //System.out.println(Arrays.toString(stalactiteFirstPosition) + " - " + Arrays.toString(stalactiteSecondPosition));
-        if (stalactiteFirstPosition[0] == stalactiteSecondPosition[1]
-                || stalactiteFirstPosition[1] == stalactiteSecondPosition[0]) {
-            return true;
-        }
-        return false;
-    }
-
-    private static double[] getPositionStalactite(Stalactite stalactite) {
-        double positionMin = stalactite.getPosX() - stalactite.getDiameter() / 2;
-        double positionMax = stalactite.getPosX() + stalactite.getDiameter() / 2;
-        return new double[]{positionMin, positionMax};
+        return CaveSimulation.checkValuesAreInRange(stalactiteFirstPosition, stalactiteSecondPosition);
     }
 
     public static String stalactitesToString(List<Stalactite> stalactites) {
@@ -48,9 +38,9 @@ public class Stalactite extends Concretion {
         stalactitesStringified.append("\n\n---------- STALACTITES ----------");
         stalactites.forEach(stalactite -> {
                     stalactitesStringified.append("\nStalactite N°").append(stalactite.getIndex())
-                            .append("\n\tPosition : (")
-                            .append(stalactite.getPosX()).append(",").append(stalactite.getPosY())
-                            .append(")\n\tDiamètre : ")
+                            .append("\n\tPosition : ")
+                            .append(stalactite.getPosX())
+                            .append("\n\tDiamètre : ")
                             .append(stalactite.getDiameter())
                             .append("\n\tTaille : ")
                             .append(stalactite.getSize());
@@ -60,6 +50,12 @@ public class Stalactite extends Concretion {
                 }
         );
         return stalactitesStringified.toString();
+    }
+
+    public static double[] getSurfaceCoveredByStalactite(Stalactite stalactite) {
+        double positionMin = stalactite.getPosX() - stalactite.getDiameter() / 2;
+        double positionMax = stalactite.getPosX() + stalactite.getDiameter() / 2;
+        return new double[]{positionMin, positionMax};
     }
 
 }
